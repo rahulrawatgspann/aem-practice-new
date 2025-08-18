@@ -1,10 +1,10 @@
 {
   "mappings": [
-    "/content/aem-boilerplate/:/",
-    "/content/aem-boilerplate/configuration:/.helix/config.json",
-    "/content/aem-boilerplate/metadata:/metadata.json"
+    "/content/aem-practice-new-rr/:/",
+    "/content/aem-practice-new-rr/configuration:/.helix/config.json",
+    "/content/aem-practice-new-rr/metadata:/metadata.json"
   ],
   "includes": [
-    "/content/aem-boilerplate/"
+    "/content/aem-practice-new-rr/"
   ]
 }

@@ -1,5 +1,5 @@
 .block.quote {
-  background-color: color(srgb 0.6627 0.6627 0.6627); /* darkgray in srgb */
+  background-color: color(srgb 0.678 0.847 0.902); /* lightblue */
   padding: 0 0 24px;
   display: flex;
   flex-direction: column;
@@ -26,5 +26,5 @@
   bottom: -8px;
   height: 5px;
   width: 30px;
-  background-color: color(srgb 0.6627 0.6627 0.6627); /* darkgray in srgb */
+  background-color: color(srgb 0.596 0.984 0.596); /* palegreen */
 }

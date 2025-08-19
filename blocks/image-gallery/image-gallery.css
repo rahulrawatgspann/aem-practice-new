@@ -8,7 +8,7 @@
 .block.image-gallery .gallery-item {
   overflow: hidden;
   border-radius: 8px;
-  box-shadow: 0 2px 6px color(srgb 0 0 0 / 0.1);
+  box-shadow: 0 2px 6px color(srgb 0 0 0 / 10%);
 }
 
 .block.image-gallery .gallery-item picture img {

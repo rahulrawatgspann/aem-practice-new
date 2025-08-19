@@ -209,6 +209,18 @@
     ]
   },
   {
+    "id": "image-gallery",
+    "fields": [
+      {
+        "component": "image",
+        "name": "images",
+        "label": "Images",
+        "value": [],
+        "valueType": "array"
+      }
+    ]
+  },
+  {
     "id": "hero",
     "fields": [
       {

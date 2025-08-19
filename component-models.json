@@ -222,12 +222,6 @@
         "component": "image",
         "name": "images",
         "label": "Images",
-        "value": [
-          {
-            "src": "",
-            "alt": ""
-          }
-        ],
         "valueType": "array"
       }
     ]

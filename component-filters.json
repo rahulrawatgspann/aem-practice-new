@@ -15,9 +15,7 @@
       "hero",
       "cards",
       "columns",
-      "fragment",
-      "quote",
-      "image-gallery"
+      "fragment"
     ]
   },
   {
@@ -39,6 +37,12 @@
       "image",
       "button",
       "title"
+    ]
+  },
+  {
+    "id": "section",
+    "components": [
+      "custom-gallery"
     ]
   }
 ]

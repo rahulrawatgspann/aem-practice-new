@@ -1,0 +1,19 @@
+.block.custom-gallery {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  background-color: #f9f9f9;
+  padding: 20px;
+}
+
+.block.custom-gallery img {
+  width: 100px;
+  height: auto;
+  border-radius: 8px;
+}
+
+.block.custom-gallery .caption {
+  width: 100%;
+  font-style: italic;
+  margin-top: 10px;
+}

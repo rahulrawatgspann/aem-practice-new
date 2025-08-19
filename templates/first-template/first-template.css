@@ -1,0 +1,16 @@
+.template.product-landing-template {
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+  padding: 40px;
+  background-color: #ffffff;
+}
+
+.template.product-landing-template .block {
+  border-bottom: 1px solid #eee;
+  padding-bottom: 20px;
+}
+
+.template.product-landing-template .block:last-child {
+  border-bottom: none;
+}

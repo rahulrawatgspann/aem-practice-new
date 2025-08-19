@@ -38,10 +38,5 @@
       ]
     }
   ],
-  "filters": [
-    {
-      "id": "section",
-      "components": ["custom-gallery"]
-    }
-  ]
+  "filters": []
 }

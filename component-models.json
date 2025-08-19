@@ -208,6 +208,50 @@
     ]
   },
   {
+    "id": "quote",
+    "fields": [
+      {
+        "component": "richtext",
+        "name": "quote",
+        "value": "",
+        "label": "Quote",
+        "valueType": "string"
+      },
+      {
+        "component": "text",
+        "valueType": "string",
+        "name": "author",
+        "label": "Author",
+        "value": ""
+      },
+      {
+        "component": "text",
+        "valueType": "string",
+        "name": "test",
+        "label": "Test",
+        "value": ""
+      }
+    ]
+  },
+  {
+    "id": "custom-gallery",
+    "fields": [
+      {
+        "component": "reference",
+        "name": "images",
+        "label": "Image URLs",
+        "valueType": "array",
+        "multi": true
+      },
+      {
+        "component": "richtext",
+        "name": "caption",
+        "label": "Caption",
+        "valueType": "string"
+      }
+    ]
+  },
+  {
     "id": "hero",
     "fields": [
       {

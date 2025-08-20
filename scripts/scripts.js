@@ -61,10 +61,11 @@ async function loadFonts() {
 }
 
 const TEMPLATE_LIST = [
-  'test-sample',
-  'first-template',
-  'page-style-template',
-  'self-contained-template',
+  'test-sample', // console
+  'first-template', // welcome
+  'page-style-template', // style
+  'self-contained-template', // header, footer,
+  'blog-page',
 ];
 
 async function decorateTemplates(main) {

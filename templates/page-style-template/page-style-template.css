@@ -1,0 +1,15 @@
+.template.page-style-template {
+  transition: all 0.3s ease-in-out;
+}
+
+.template.page-style-template[data-background-color] {
+  background-color: var(--background-color);
+}
+
+.template.page-style-template[data-font-family] {
+  font-family: var(--font-family);
+}
+
+.template.page-style-template[data-padding] {
+  padding: var(--padding);
+}

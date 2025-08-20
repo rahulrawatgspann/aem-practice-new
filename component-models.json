@@ -17,74 +17,15 @@
       {
         "component": "text",
         "valueType": "string",
-        "name": "canonical",
-        "label": "Canonical"
-      },
-      {
-        "component": "text",
-        "valueType": "string",
         "name": "keywords",
         "multi": true,
         "label": "Keywords"
-      },
-      {
-        "component": "richtext",
-        "valueType": "string",
-        "name": "pageLinks",
-        "label": "Page Links"
-      },
-      {
-        "component": "date-time",
-        "valueType": "date-time",
-        "name": "publishDate",
-        "label": "Publish Date",
-        "placeholder": "YYYY-MM-DD",
-        "displayFormat": null,
-        "valueFormat": null
-      },
-      {
-        "component": "reference",
-        "valueType": "string",
-        "name": "image",
-        "label": "Image",
-        "multi": false
-      },
-      {
-        "component": "aem-tag",
-        "valueType": "string",
-        "name": "pageTags",
-        "label": "AEM Tag Picker"
-      },
-      {
-        "component": "text",
-        "valueType": "string",
-        "name": "authorName",
-        "label": "Author Name"
-      },
-      {
-        "component": "reference",
-        "valueType": "string",
-        "name": "authorImage",
-        "label": "Author Image",
-        "multi": false
-      },
-      {
-        "component": "text",
-        "valueType": "number",
-        "name": "readingTime",
-        "label": "Reading Time"
       },
       {
         "component": "text",
         "valueType": "string",
         "name": "template",
         "label": "Template"
-      },
-      {
-        "component": "text",
-        "valueType": "number",
-        "name": "pageOrder",
-        "label": "Page Order"
       }
     ]
   },

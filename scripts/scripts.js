@@ -64,6 +64,7 @@ const TEMPLATE_LIST = [
   'test-sample',
   'first-template',
   'page-style-template',
+  'self-contained-template',
 ];
 
 async function decorateTemplates(main) {

@@ -62,6 +62,7 @@ async function loadFonts() {
 
 const TEMPLATE_LIST = [
   'test-sample',
+  'first-template',
 ];
 
 async function decorateTemplates(main) {

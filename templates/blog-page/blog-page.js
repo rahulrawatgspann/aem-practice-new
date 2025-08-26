@@ -2,6 +2,7 @@ import { buildBlock } from '../../scripts/aem.js';
 import { div } from '../../scripts/dom-builder.js';
 
 export default async function buildAutoBlocks() {
+  console.log('blog-page---------------------------------');
   const main = document.querySelector('main');
   const section = main.querySelector('div');
   section.classList.add('mb-8');

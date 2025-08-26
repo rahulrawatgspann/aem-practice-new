@@ -172,4 +172,6 @@ async function loadPage() {
   loadDelayed();
 }
 
+export const applyClasses = (element, classes) => element?.classList.add(...classes.split(' '));
+
 loadPage();

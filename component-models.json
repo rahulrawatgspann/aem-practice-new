@@ -240,6 +240,89 @@
     ]
   },
   {
+    "id": "title-card",
+    "fields": [
+      {
+        "component": "multiselect",
+        "name": "title_card_translation",
+        "label": "Translation",
+        "options": [
+          {
+            "name": "Translation",
+            "children": [
+              {
+                "name": "Do not translate",
+                "value": "GlobalLinkNoTx"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "component": "multiselect",
+        "valueType": "array",
+        "name": "classes",
+        "value": [],
+        "label": "Block Options",
+        "options": [
+          {
+            "name": "Style",
+            "children": [
+              {
+                "name": "Title with Image",
+                "value": "title-image"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "component": "text",
+        "valueType": "string",
+        "name": "title-card_title",
+        "value": "",
+        "label": "Title"
+      },
+      {
+        "component": "select",
+        "name": "title-card_titleType",
+        "hidden": true,
+        "label": "Title Type",
+        "valueType": "string"
+      },
+      {
+        "component": "text",
+        "valueType": "string",
+        "name": "subTitle_title",
+        "value": "",
+        "label": "SubTitle"
+      },
+      {
+        "component": "select",
+        "name": "subTitle_titleType",
+        "hidden": true,
+        "label": "SubTitle Type",
+        "valueType": "string"
+      },
+      {
+        "component": "richtext",
+        "name": "title-card_description",
+        "value": "",
+        "label": "Description",
+        "valueType": "string"
+      },
+      {
+        "...": "../../../models/_common.json#/button-fields"
+      },
+      {
+        "...": "../../../models/_common.json#/image-fields"
+      },
+      {
+        "...": "../../../models/_common.json#/media-fields"
+      }
+    ]
+  },
+  {
     "id": "custom-gallery",
     "fields": [
       {

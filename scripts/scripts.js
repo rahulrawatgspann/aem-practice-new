@@ -332,6 +332,35 @@ function loadChatScript() {
   document.head.appendChild(script);
 }
 
+function forceShowChatWidget() {
+  setTimeout(() => {
+    // Force show the widget regardless of online/offline status
+    if (window.Comm100API && window.Comm100API.do) {
+      window.Comm100API.do('livechat.button.show');
+    }
+
+    // Override CSS to force visibility
+    const style = document.createElement('style');
+    style.textContent = `
+      iframe[src*="comm100"] {
+        display: block !important;
+        visibility: visible !important;
+        opacity: 1 !important;
+      }
+      
+      .comm100-container,
+      [id*="comm100"],
+      [class*="comm100"] {
+        display: block !important;
+        visibility: visible !important;
+      }
+    `;
+    document.head.appendChild(style);
+
+    console.log('Forced chat widget to show');
+  }, 3000);
+}
+
 /**
  * Loads everything that happens a lot later,
  * without impacting the user experience.
@@ -343,6 +372,7 @@ function loadDelayed() {
   // Load chat after 4 seconds
   window.setTimeout(() => {
     loadChatScript();
+    forceShowChatWidget();
   }, 4000);
 }
 

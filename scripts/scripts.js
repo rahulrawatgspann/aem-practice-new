@@ -156,30 +156,160 @@ async function loadLazy(doc) {
   loadFonts();
 }
 
-function initializeChat() {
-  function checkAPI() {
-    // More robust check for API availability
-    if (typeof window.Comm100API !== 'undefined'
-      && window.Comm100API
-      && typeof window.Comm100API.get === 'function') {
+// function initializeChat() {
+//   function checkAPI() {
+//     // More robust check for API availability
+//     if (typeof window.Comm100API !== 'undefined'
+//       && window.Comm100API
+//       && typeof window.Comm100API.get === 'function') {
+//       try {
+//         const status = window.Comm100API.get('livechat.button.status');
+//         if (status === 'online') {
+//           window.Comm100API.do('livechat.invitation.show', '621e6cd0-932a-41ad-bb21-dc2c8a4e81ba&scopingcampaignid');
+//         }
+//         console.log('Chat initialized successfully');
+//       } catch (error) {
+//         console.warn('Chat initialization error:', error);
+//         // Retry after a longer delay
+//         setTimeout(checkAPI, 500);
+//       }
+//     } else {
+//       // API not ready, retry
+//       setTimeout(checkAPI, 200);
+//     }
+//   }
+//   // Start checking after a small delay
+//   setTimeout(checkAPI, 100);
+// }
+
+// function loadChatScript() {
+//   // Check if already loaded
+//   if (window.chatLoaded) return;
+//   window.chatLoaded = true;
+
+//   // Load script
+//   const script = document.createElement('script');
+//   script.type = 'text/javascript';
+//   script.async = true;
+//   script.src = 'https://vue.comm100.com/livechat.ashx?siteId=1000020';
+//   script.onload = () => {
+//     // Initialize chat after script loads
+//     initializeChat();
+//   };
+//   script.onerror = () => console.warn('Failed to load chat script');
+//   document.head.appendChild(script);
+// }
+
+function createFallbackChatButton() {
+  console.log('Creating fallback chat button...');
+  const chatButton = document.createElement('div');
+  chatButton.id = 'fallback-chat-button';
+  chatButton.innerHTML = `
+    <div style="
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background: #007bff;
+      color: white;
+      padding: 15px 20px;
+      border-radius: 25px;
+      cursor: pointer;
+      z-index: 9999;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+      font-family: Arial, sans-serif;
+      font-size: 14px;
+      font-weight: bold;
+    ">
+      Chat with us
+    </div>
+  `;
+  chatButton.onclick = () => {
+    if (window.Comm100API && typeof window.Comm100API.do === 'function') {
       try {
-        const status = window.Comm100API.get('livechat.button.status');
-        if (status === 'online') {
-          window.Comm100API.do('livechat.invitation.show', '621e6cd0-932a-41ad-bb21-dc2c8a4e81ba&scopingcampaignid');
-        }
-        console.log('Chat initialized successfully');
+        window.Comm100API.do('livechat.window.show');
+        console.log('Manually opened chat window');
       } catch (error) {
-        console.warn('Chat initialization error:', error);
-        // Retry after a longer delay
-        setTimeout(checkAPI, 500);
+        console.error('Could not open chat manually:', error);
+        alert('Chat service is currently unavailable. Please try again later.');
       }
     } else {
-      // API not ready, retry
-      setTimeout(checkAPI, 200);
+      console.error('Comm100API not available for manual chat opening');
+      alert('Chat service is loading. Please wait a moment and try again.');
     }
+  };
+  document.body.appendChild(chatButton);
+}
+
+function initializeChatSafely() {
+  if (!window.Comm100API) {
+    console.log('Comm100API not available, retrying...');
+    setTimeout(initializeChatSafely, 1000);
+    return;
   }
-  // Start checking after a small delay
-  setTimeout(checkAPI, 100);
+
+  try {
+    console.log('Attempting to get chat status...');
+    // Try different API calls to see what works
+    if (typeof window.Comm100API.get === 'function') {
+      const status = window.Comm100API.get('livechat.button.status');
+      console.log('Chat button status:', status);
+    } else {
+      console.log('Comm100API.get is not a function');
+    }
+    if (typeof window.Comm100API.do === 'function') {
+      // Try to show the button first
+      window.Comm100API.do('livechat.button.show');
+      console.log('Called livechat.button.show');
+      // Wait a moment then try to show invitation
+      setTimeout(() => {
+        try {
+          const status = window.Comm100API.get('livechat.button.status');
+          console.log('Status after showing button:', status);
+          if (status === 'online') {
+            window.Comm100API.do('livechat.invitation.show', '621e6cd0-932a-41ad-bb21-dc2c8a4e81ba&scopingcampaignid');
+            console.log('Invitation shown for online status');
+          } else {
+            console.log('Chat is not online, status:', status);
+            // Try showing button anyway for testing
+            window.Comm100API.do('livechat.window.show');
+            console.log('Tried showing chat window directly');
+          }
+        } catch (error) {
+          console.error('Error in delayed initialization:', error);
+        }
+      }, 1000);
+    } else {
+      console.log('Comm100API.do is not a function');
+    }
+  } catch (error) {
+    console.error('Chat initialization error:', error);
+  }
+  // Check again after 3 seconds to see if widget appeared
+  setTimeout(() => {
+    const comm100Elements = document.querySelectorAll('*[id*="comm100"], *[class*="comm100"], iframe[src*="comm100"], *[id*="c100"], *[class*="c100"]');
+    console.log('Elements found after initialization:', comm100Elements.length);
+    if (comm100Elements.length === 0) {
+      console.warn('No chat widget elements found after initialization');
+      createFallbackChatButton();
+    }
+  }, 3000);
+}
+
+function debugAndInitializeChat() {
+  console.log('=== Comm100 Debug Info ===');
+  console.log('Comm100API exists:', !!window.Comm100API);
+  if (window.Comm100API) {
+    console.log('Comm100API methods:', Object.getOwnPropertyNames(window.Comm100API));
+    console.log('Comm100API type:', typeof window.Comm100API);
+  }
+  // Check for any Comm100-related elements in DOM
+  const comm100Elements = document.querySelectorAll('*[id*="comm100"], *[class*="comm100"], iframe[src*="comm100"], *[id*="c100"], *[class*="c100"]');
+  console.log('Found Comm100 elements:', comm100Elements.length);
+  comm100Elements.forEach((el, i) => {
+    console.log(`Element ${i}:`, el.tagName, el.id, el.className, 'Visible:', !el.hidden && window.getComputedStyle(el).display !== 'none');
+  });
+  // Try to initialize
+  initializeChatSafely();
 }
 
 function loadChatScript() {
@@ -188,15 +318,17 @@ function loadChatScript() {
   window.chatLoaded = true;
 
   // Load script
+  console.log('Loading Comm100 chat script...');
   const script = document.createElement('script');
   script.type = 'text/javascript';
   script.async = true;
   script.src = 'https://vue.comm100.com/livechat.ashx?siteId=1000020';
   script.onload = () => {
     // Initialize chat after script loads
-    initializeChat();
+    console.log('Comm100 script loaded successfully');
+    setTimeout(debugAndInitializeChat, 2000);
   };
-  script.onerror = () => console.warn('Failed to load chat script');
+  script.onerror = () => console.error('Failed to load chat Comm100 script');
   document.head.appendChild(script);
 }
 
@@ -208,7 +340,10 @@ function loadDelayed() {
   // eslint-disable-next-line import/no-cycle
   window.setTimeout(() => import('./delayed.js'), 3000);
   // load anything that can be postponed to the latest here
-  loadChatScript();
+  // Load chat after 4 seconds
+  window.setTimeout(() => {
+    loadChatScript();
+  }, 4000);
 }
 
 async function loadPage() {

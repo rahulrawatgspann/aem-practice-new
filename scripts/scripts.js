@@ -158,7 +158,10 @@ async function loadLazy(doc) {
 
 function initializeChat() {
   function checkAPI() {
-    if (typeof window.Comm100API !== 'undefined') {
+    // More robust check for API availability
+    if (typeof window.Comm100API !== 'undefined'
+      && window.Comm100API
+      && typeof window.Comm100API.get === 'function') {
       try {
         const status = window.Comm100API.get('livechat.button.status');
         if (status === 'online') {
@@ -167,12 +170,16 @@ function initializeChat() {
         console.log('Chat initialized successfully');
       } catch (error) {
         console.warn('Chat initialization error:', error);
+        // Retry after a longer delay
+        setTimeout(checkAPI, 500);
       }
     } else {
-      setTimeout(checkAPI, 100);
+      // API not ready, retry
+      setTimeout(checkAPI, 200);
     }
   }
-  checkAPI();
+  // Start checking after a small delay
+  setTimeout(checkAPI, 100);
 }
 
 function loadChatScript() {

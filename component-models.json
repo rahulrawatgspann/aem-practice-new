@@ -240,6 +240,25 @@
     ]
   },
   {
+    "id": "chatbot",
+    "fields": [
+      {
+        "component": "text",
+        "valueType": "string",
+        "name": "siteId",
+        "label": "Site ID",
+        "value": "1000020"
+      },
+      {
+        "component": "text",
+        "valueType": "string",
+        "name": "invitationId",
+        "label": "Invitation ID",
+        "value": "621e6cd0-932a-41ad-bb21-dc2c8a4e81ba&scopingcampaignid"
+      }
+    ]
+  },
+  {
     "id": "custom-gallery",
     "fields": [
       {

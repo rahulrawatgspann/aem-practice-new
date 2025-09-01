@@ -5,7 +5,7 @@ export default function decorate(block) {
   blockquote.textContent = quoteWrapper.textContent.trim();
 
   // Add multiple classes to increase specificity
-  blockquote.classList.add('text-blue-600', 'tailwind-test');
+  blockquote.classList.add('bg-blue-500', 'text-white', 'px-4', 'py-2');
 
   quoteWrapper.replaceChildren(blockquote);
 

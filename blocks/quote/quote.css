@@ -10,6 +10,7 @@
 .block.quote blockquote {
   margin: 16px;
   text-indent: 0;
+  @apply text-blue-600;
 }
 
 .block.quote > div:last-child > div {

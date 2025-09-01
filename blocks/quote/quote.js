@@ -4,8 +4,8 @@ export default function decorate(block) {
   const blockquote = document.createElement('blockquote');
   blockquote.textContent = quoteWrapper.textContent.trim();
 
-  // Add Tailwind classes
-  blockquote.classList.add('text-xl', 'font-semibold', 'text-blue-600');
+  // Add multiple classes to increase specificity
+  blockquote.classList.add('text-blue-600', 'tailwind-test');
 
   quoteWrapper.replaceChildren(blockquote);
 

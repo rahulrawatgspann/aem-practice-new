@@ -10,7 +10,6 @@
 .block.quote blockquote {
   margin: 16px;
   text-indent: 0;
-  @apply text-blue-600;
 }
 
 .block.quote > div:last-child > div {
@@ -29,9 +28,4 @@
   height: 5px;
   width: 30px;
   background-color: color(srgb 0.596 0.984 0.596); /* palegreen */
-}
-
-/* Test Tailwind classes */
-.quote-test {
-  @apply bg-red-100 p-2 rounded;
 }

@@ -1,0 +1,21 @@
+{
+  "models": [
+    {
+      "id": "page-metadata",
+      "fields": [
+        {
+          "component": "container",
+          "label": "Fieldset",
+          "fields": [
+            {
+              "component": "text",
+              "valueType": "string",
+              "name": "template",
+              "label": "Template"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -12,11 +12,10 @@
       "image",
       "button",
       "title",
+      "hero",
       "cards",
       "columns",
-      "fragment",
-      "quote",
-      "custom-gallery"
+      "fragment"
     ]
   },
   {

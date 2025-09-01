@@ -282,5 +282,20 @@
         "valueType": "string"
       }
     ]
+  },
+  {
+    "id": "hero2",
+    "fields": [
+      {
+        "component": "text",
+        "name": "text",
+        "label": "Title"
+      },
+      {
+        "component": "text",
+        "name": "description",
+        "label": "Description"
+      }
+    ]
   }
 ]

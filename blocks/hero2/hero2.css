@@ -1,0 +1,13 @@
+/* blocks/hero2/hero2.css */
+
+.hero2 {
+  @apply bg-blue-500 text-white p-8 text-center;
+}
+
+.hero2 h1 {
+  @apply text-4xl font-bold mb-4;
+}
+
+.hero2 p {
+  @apply text-lg mb-6;
+}

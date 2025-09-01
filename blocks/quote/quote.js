@@ -4,11 +4,11 @@ export default function decorate(block) {
   const blockquote = document.createElement('blockquote');
   blockquote.textContent = quoteWrapper.textContent.trim();
 
-  // Add Tailwind classes to test
+  // Add Tailwind classes
   blockquote.classList.add('text-xl', 'font-semibold', 'text-blue-600');
 
   quoteWrapper.replaceChildren(blockquote);
 
-  // Add Tailwind classes to the wrapper
-  block.classList.add('bg-yellow-100', 'border-l-4', 'border-yellow-500', 'p-4');
+  // Test with inline styles to confirm Tailwind utilities exist
+  block.style.cssText = 'background-color: rgb(254 249 195) !important; border-left: 4px solid rgb(234 179 8) !important; padding: 1rem !important;';
 }

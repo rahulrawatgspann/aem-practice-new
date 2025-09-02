@@ -1,0 +1,51 @@
+{
+	"definitions": [
+		{
+			"title": "Dummy",
+			"id": "dummy",
+			"plugins": {
+				"xwalk": {
+					"page": {
+						"resourceType": "core/franklin/components/block/v1/block",
+						"template": {
+							"name": "Dummy",
+							"model": "dummy",
+							"dummy": "<p>Dummy Text</p>",
+							"author": "Rahul Rawat",
+							"test": "Test"
+						}
+					}
+				}
+			}
+		}
+	],
+	"models": [
+		{
+			"id": "dummy",
+			"fields": [
+				{
+					"component": "richtext",
+					"name": "dummy",
+					"value": "",
+					"label": "Dummy",
+					"valueType": "string"
+				},
+				{
+					"component": "text",
+					"valueType": "string",
+					"name": "author",
+					"label": "Author",
+					"value": ""
+				},
+				{
+					"component": "text",
+					"valueType": "string",
+					"name": "test",
+					"label": "Test",
+					"value": ""
+				}
+			]
+		}
+	],
+	"filters": []
+}

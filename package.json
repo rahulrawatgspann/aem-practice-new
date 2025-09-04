@@ -14,7 +14,8 @@
     "build:json:filters": "merge-json-cli -i \"models/_component-filters.json\" -o \"component-filters.json\"",
     "prepare": "husky",
     "build-css": "tailwindcss -i ./styles/tailwind.css -o ./styles/tailwind-output.css --watch",
-    "build-css-prod": "tailwindcss -i ./styles/tailwind.css -o ./styles/tailwind-output.css --minify"
+    "build-css-prod": "tailwindcss -i ./styles/tailwind.css -o ./styles/tailwind-output.css --minify",
+    "build:css": "node ./build-css.js"
   },
   "repository": {
     "type": "git",

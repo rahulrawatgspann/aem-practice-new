@@ -14,6 +14,8 @@ import {
   getMetadata,
 } from './aem.js';
 
+export const applyClasses = (element, classes) => element?.classList.add(...classes.split(' '));
+
 /**
  * Moves all the attributes from a given elmenet to another given element.
  * @param {Element} from the element to copy attributes from

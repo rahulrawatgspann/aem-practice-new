@@ -9,6 +9,16 @@ const fileMappings = [
     content: ['./blocks/quote/quote.js'],
     output: './blocks/quote/quote.css',
   },
+  {
+    content: ['./blocks/header-test/header-test.js'],
+    output: './blocks/header-test/header-test.css',
+    wrapper: 'header-test-wrapper',
+  },
+  {
+    content: ['./blocks/header-test4/header-test4.js'],
+    output: './blocks/header-test4/header-test4.css',
+    wrapper: 'header-test3-wrapper',
+  },
   // {
   //   content: ['./blocks/header/header.js', './blocks/header/punchout-message.js'],
   //   output: './blocks/header/header.css',

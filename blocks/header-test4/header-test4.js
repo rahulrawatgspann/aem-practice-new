@@ -1,8 +1,9 @@
 // /* eslint-disable */
-import { decorateIcons } from '../../scripts/aem.js';
+import { decorateIcons, getMetadata } from '../../scripts/aem.js';
 import {
   div, a, span, nav, img, input, button, form,
 } from '../../scripts/dom-builder.js';
+import { loadFragment } from '../fragment/fragment.js';
 
 // Header Component
 function createHeader() {
@@ -110,6 +111,14 @@ function createSubHeader() {
  * @param {Element} block The header block element
  */
 export default async function decorate(block) {
+  // load nav as fragment
+  const navMeta = getMetadata('nav');
+  console.log('🎈 ~ decorate ~ navMeta: ~~~~~~~~~~~~~~~~~~~~ 1', navMeta);
+  const navPath = navMeta ? new URL(navMeta, window.location).pathname : '/nav';
+  console.log('🎈 ~ decorate ~ navPath: ~~~~~~~~~~~~~~~~~~~~ 1', navPath);
+  const fragment = await loadFragment(navPath);
+  console.log('🎈 ~ decorate ~ fragment: ~~~~~~~~~~~~~~~~~~~~ 1', fragment);
+
   const navWrapper = document.createElement('div');
   navWrapper.className = 'nav-wrapper';
 

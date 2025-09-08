@@ -125,17 +125,22 @@ export default async function decorate(block) {
   const classes = ['brand', 'sections', 'tools'];
   classes.forEach((c, i) => {
     const section = nav.children[i];
+    console.log('🎈 ~ decorate ~ section: ~~~~~~~~~~~~~~~~~~~~ ', section);
     if (section) section.classList.add(`nav-${c}`);
   });
 
   const navBrand = nav.querySelector('.nav-brand');
+  console.log('🎈 ~ decorate ~ navBrand: ~~~~~~~~~~~~~~~~~~~~ ', navBrand);
   const brandLink = navBrand.querySelector('.button');
+  console.log('🎈 ~ decorate ~ brandLink: ~~~~~~~~~~~~~~~~~~~~ ', brandLink);
   if (brandLink) {
+    console.log('🎈 ~ decorate ~ brandLink: ~~~~~~~~~~~~~~~~~~~~ ', brandLink);
     brandLink.className = '';
     brandLink.closest('.button-container').className = '';
   }
 
   const navSections = nav.querySelector('.nav-sections');
+  console.log('🎈 ~ decorate ~ navSections: ~~~~~~~~~~~~~~~~~~~~ ', navSections);
   if (navSections) {
     navSections.querySelectorAll(':scope .default-content-wrapper > ul > li').forEach((navSection) => {
       if (navSection.querySelector('ul')) navSection.classList.add('nav-drop');

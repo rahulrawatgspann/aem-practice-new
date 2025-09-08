@@ -139,6 +139,7 @@ export default async function decorate(block) {
     // if (section) section.classList.add(`nav-${c}`);
     if (section) {
       console.log('🎈 ~ decorate ~ section: ~~~~~~~~~~~~~~~~~~~~ ', section);
+      section.classList.add(`nav-${c}`);
     }
   });
 
@@ -153,7 +154,9 @@ export default async function decorate(block) {
 
   // media query match that indicates mobile/tablet width
   const isDesktop = window.matchMedia('(min-width: 900px)');
+  // middle one, example
   const navSections = navWrapper.querySelector('.nav-sections');
+  console.log('🎈 ~ decorate ~ navSections: ~~~~~~~~~~~~~~~~~~~~ ', navSections);
   if (navSections) {
     navSections.querySelectorAll(':scope .default-content-wrapper > ul > li').forEach((navSection) => {
       if (navSection.querySelector('ul')) navSection.classList.add('nav-drop');

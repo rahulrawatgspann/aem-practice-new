@@ -129,16 +129,17 @@ export default async function decorate(block) {
     if (section) section.classList.add(`nav-${c}`);
   });
 
+  // first, button
   const navBrand = nav.querySelector('.nav-brand');
   console.log('🎈 ~ decorate ~ navBrand: ~~~~~~~~~~~~~~~~~~~~ ', navBrand);
   const brandLink = navBrand.querySelector('.button');
   console.log('🎈 ~ decorate ~ brandLink: ~~~~~~~~~~~~~~~~~~~~ ', brandLink);
   if (brandLink) {
-    console.log('🎈 ~ decorate ~ brandLink: ~~~~~~~~~~~~~~~~~~~~ ', brandLink);
     brandLink.className = '';
     brandLink.closest('.button-container').className = '';
   }
 
+  // middle one
   const navSections = nav.querySelector('.nav-sections');
   console.log('🎈 ~ decorate ~ navSections: ~~~~~~~~~~~~~~~~~~~~ ', navSections);
   if (navSections) {

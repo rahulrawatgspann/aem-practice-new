@@ -1,5 +1,14 @@
 /* stylelint-disable */
 
+.test {
+  .section {
+    .default-content-wrapper {
+      display: flex !important;
+      gap: 30px;
+    }
+  }
+}
+
 .visible {
   visibility: visible
 }

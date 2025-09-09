@@ -131,7 +131,7 @@ export default async function decorate(block) {
   const subHeaderEl = createSubHeader();
 
   while (fragment.firstElementChild) {
-    applyClasses(subHeaderEl.children[1].children[0], 'flex items-center space-x-6 text-sm text-blue-700');
+    applyClasses(subHeaderEl?.children[1], 'test flex items-center space-x-6 text-sm text-blue-700');
     subHeaderEl.append(fragment.firstElementChild);
   }
 

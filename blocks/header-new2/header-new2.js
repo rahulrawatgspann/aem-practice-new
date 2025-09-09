@@ -1,8 +1,9 @@
 // /* eslint-disable */
-import { decorateIcons } from '../../scripts/aem.js';
+import { decorateIcons, getMetadata } from '../../scripts/aem.js';
 import {
   div, a, span, nav, img, input, button, form,
 } from '../../scripts/dom-builder.js';
+import { loadFragment } from '../fragment/fragment.js';
 
 // Header Component
 function createHeader() {
@@ -69,39 +70,39 @@ function createSubHeader() {
       ),
     ),
     // Right Section → Quick Links
-    div(
-      { class: 'flex items-center space-x-6 text-sm text-blue-700' },
-      a(
-        {
-          href: '#',
-          class: 'flex items-center space-x-1 hover:underline',
-          style: 'color: #0060a8',
-        },
-        span('Quick Order'),
-        span({ class: 'icon icon-bolt' }),
-      ),
-      a(
-        {
-          href: '#',
-          class: 'flex items-center space-x-1 hover:underline',
-          style: 'color: #0060a8',
-        },
-        span('Request Quote'),
-        span({ class: 'icon icon-chat' }),
-      ),
-      a(
-        {
-          href: '#',
-          class: 'flex items-center space-x-1 hover:underline text-gray-700 pr-8',
-          style: 'color: #0060a8',
-        },
-        span('Cart'),
-        span({ class: 'icon icon-cart' }),
-      ),
-    ),
+    // div(
+    //   { class: 'flex items-center space-x-6 text-sm text-blue-700' },
+    //   a(
+    //     {
+    //       href: '#',
+    //       class: 'flex items-center space-x-1 hover:underline',
+    //       style: 'color: #0060a8',
+    //     },
+    //     span('Quick Order'),
+    //     span({ class: 'icon icon-bolt' }),
+    //   ),
+    //   a(
+    //     {
+    //       href: '#',
+    //       class: 'flex items-center space-x-1 hover:underline',
+    //       style: 'color: #0060a8',
+    //     },
+    //     span('Request Quote'),
+    //     span({ class: 'icon icon-chat' }),
+    //   ),
+    //   a(
+    //     {
+    //       href: '#',
+    //       class: 'flex items-center space-x-1 hover:underline text-gray-700 pr-8',
+    //       style: 'color: #0060a8',
+    //     },
+    //     span('Cart'),
+    //     span({ class: 'icon icon-cart' }),
+    //   ),
+    // ),
   );
 
-  decorateIcons(subHeader);
+  // decorateIcons(subHeader);
   return subHeader;
 }
 
@@ -110,12 +111,26 @@ function createSubHeader() {
  * @param {Element} block The header block element
  */
 export default async function decorate(block) {
+  // load nav as fragment
+  const navMeta = getMetadata('nav');
+  const navPath = navMeta ? new URL(navMeta, window.location).pathname : '/nav';
+  const fragment = await loadFragment(navPath);
+  console.log('🎈 ~ decorate ~ fragment: ~~~~~~~~~~~~~~~~~~~~ ', fragment);
+
+  // decorate nav DOM
+  // block.textContent = '';
+  // const nav = document.createElement('nav');
+  // nav.id = 'nav';
+
   const navWrapper = document.createElement('div');
   navWrapper.className = 'nav-wrapper';
 
   // create header + subheader
   const headerEl = createHeader();
   const subHeaderEl = createSubHeader();
+
+  while (fragment.firstElementChild) subHeaderEl.append(fragment.firstElementChild);
+  console.log('🎈 ~ decorate ~ subHeaderEl: ~~~~~~~~~~~~~~~~~~~~ ', subHeaderEl);
 
   // append to wrapper (header first)
   navWrapper.append(headerEl);

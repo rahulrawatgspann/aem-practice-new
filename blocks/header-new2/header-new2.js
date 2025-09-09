@@ -1,9 +1,8 @@
 // /* eslint-disable */
-import { decorateIcons, getMetadata } from '../../scripts/aem.js';
+import { decorateIcons } from '../../scripts/aem.js';
 import {
   div, a, span, nav, img, input, button, form,
 } from '../../scripts/dom-builder.js';
-import { loadFragment } from '../fragment/fragment.js';
 
 // Header Component
 function createHeader() {
@@ -111,68 +110,16 @@ function createSubHeader() {
  * @param {Element} block The header block element
  */
 export default async function decorate(block) {
-  // load nav as fragment
-  const navMeta = getMetadata('nav');
-  console.log('🎈 ~ decorate ~ navMeta: ~~~~~~~~~~~~~~~~~~~~ 1', navMeta);
-  const navPath = navMeta ? new URL(navMeta, window.location).pathname : '/nav';
-  console.log('🎈 ~ decorate ~ navPath: ~~~~~~~~~~~~~~~~~~~~ 1', navPath);
-  const fragment = await loadFragment(navPath);
-  console.log('🎈 ~ decorate ~ fragment: ~~~~~~~~~~~~~~~~~~~~ 1', fragment);
-
-  // decorate nav DOM
-  block.textContent = '';
-  const navWrapper = document.createElement('nav');
-  navWrapper.id = 'nav';
-  while (fragment.firstElementChild) navWrapper.append(fragment.firstElementChild);
-  console.log('🎈 ~ decorate ~ navWrapper: ~~~~~~~~~~~~~~~~~~~~ ', navWrapper);
-
-  // const navWrapper = document.createElement('div');
+  const navWrapper = document.createElement('div');
   navWrapper.className = 'nav-wrapper';
 
   // create header + subheader
   const headerEl = createHeader();
   const subHeaderEl = createSubHeader();
 
-  const classes = ['brand', 'sections', 'tools'];
-  classes.forEach((c, i) => {
-    const section = navWrapper.children[i];
-    // if (section) section.classList.add(`nav-${c}`);
-    if (section) {
-      console.log('🎈 ~ decorate ~ section: ~~~~~~~~~~~~~~~~~~~~ ', section);
-      section.classList.add(`nav-${c}`);
-    }
-  });
-
-  const navBrand = navWrapper.querySelector('.nav-brand');
-  console.log('🎈 ~ decorate ~ navBrand: ~~~~~~~~~~~~~~~~~~~~ ', navBrand);
-  const brandLink = navBrand.querySelector('.button');
-  console.log('🎈 ~ decorate ~ brandLink: ~~~~~~~~~~~~~~~~~~~~ ', brandLink);
-  if (brandLink) {
-    brandLink.className = '';
-    brandLink.closest('.button-container').className = '';
-  }
-
-  // media query match that indicates mobile/tablet width
-  const isDesktop = window.matchMedia('(min-width: 900px)');
-  // middle one, example
-  const navSections = navWrapper.querySelector('.nav-sections');
-  console.log('🎈 ~ decorate ~ navSections: ~~~~~~~~~~~~~~~~~~~~ ', navSections);
-  if (navSections) {
-    navSections.querySelectorAll(':scope .default-content-wrapper > ul > li').forEach((navSection) => {
-      if (navSection.querySelector('ul')) navSection.classList.add('nav-drop');
-      navSection.addEventListener('click', () => {
-        if (isDesktop.matches) {
-          const expanded = navSection.getAttribute('aria-expanded') === 'true';
-          // toggleAllNavSections(navSections);
-          navSection.setAttribute('aria-expanded', expanded ? 'false' : 'true');
-        }
-      });
-    });
-  }
-
   // append to wrapper (header first)
-  // navWrapper.append(headerEl);
-  // navWrapper.append(subHeaderEl);
+  navWrapper.append(headerEl);
+  navWrapper.append(subHeaderEl);
 
   // attach wrapper to block (so elements are in DOM for measurement)
   block.append(navWrapper);

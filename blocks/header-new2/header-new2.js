@@ -3,6 +3,7 @@ import { decorateIcons, getMetadata } from '../../scripts/aem.js';
 import {
   div, a, span, nav, img, input, button, form,
 } from '../../scripts/dom-builder.js';
+import { applyClasses } from '../../scripts/scripts.js';
 import { loadFragment } from '../fragment/fragment.js';
 
 // Header Component
@@ -128,6 +129,8 @@ export default async function decorate(block) {
   // create header + subheader
   const headerEl = createHeader();
   const subHeaderEl = createSubHeader();
+
+  applyClasses(subHeaderEl, 'flex items-center space-x-6 text-sm text-blue-700');
 
   while (fragment.firstElementChild) subHeaderEl.append(fragment.firstElementChild);
   console.log('🎈 ~ decorate ~ subHeaderEl: ~~~~~~~~~~~~~~~~~~~~ ', subHeaderEl);

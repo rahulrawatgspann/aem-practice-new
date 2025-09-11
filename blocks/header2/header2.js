@@ -365,8 +365,8 @@ export default async function decorate(block) {
   navContainers?.forEach((container) => container.remove());
 
   // Insert new navigation before section-metadata
-  const sectionMetadata = headerNavSection.querySelector('.section-metadata');
-  headerNavSection.insertBefore(navigationArea, sectionMetadata);
+  const sectionMetadata = headerNavSection?.querySelector('.section-metadata');
+  headerNavSection?.insertBefore(navigationArea, sectionMetadata);
 
   //
   const navWrapper = document.createElement('div');

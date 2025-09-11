@@ -46,7 +46,7 @@
   {
     "id": "nav-container",
     "components": [
-      "button"
+      "nav-item"
     ]
   }
 ]

@@ -282,7 +282,7 @@
         "label": "Link Title"
       },
       {
-        "component": "reference",
+        "component": "text",
         "valueType": "string",
         "name": "item_link",
         "value": "",

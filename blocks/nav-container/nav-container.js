@@ -1,35 +1,63 @@
-import { div } from '../../scripts/dom-builder.js';
+// blocks/nav-container/nav-container.js
 
 export default function decorate(block) {
-  const wrapper = document.querySelector('.nav-container-wrapper');
-  console.log('🎈 ~ decorate ~ wrapper: ~~~~~~~~~~~~~~~~~~~~ ', wrapper);
-  wrapper?.parentElement?.removeAttribute('class');
-  wrapper?.parentElement?.removeAttribute('style');
+  // Get all rows in the block
+  const rows = [...block.children];
+  console.log('🎈 ~ decorate ~ rows: ~~~~~~~~~~~~~~~~~~~~ ', rows);
 
-  const navContainerWrapper = div({
-    class:
-      'dhls-container',
+  // The first row should contain the nav container title
+  let titleRow = null;
+  const itemRows = [];
+
+  rows.forEach((row) => {
+    const cells = [...row.children];
+
+    // Check if this row contains the title (usually the first row or a row with single cell)
+    if (cells.length === 1 && cells[0].textContent.trim() && !cells[0].querySelector('div')) {
+      titleRow = row;
+      // Add data attribute for easier querying
+      cells[0].setAttribute('data-field', 'nav_container_title');
+      cells[0].classList.add('nav-container-title');
+    } else {
+      // This is likely a nav-item row
+      itemRows.push(row);
+    }
   });
-  const navContainerTitle = block.firstElementChild?.querySelector('p')?.textContent.trim() || '';
-  console.log('🎈 ~ decorate ~ navContainerTitle: ~~~~~~~~~~~~~~~~~~~~ ', navContainerTitle);
-  const dynamicData = Array.from(block.children).slice(1);
-  navContainerWrapper.append(dynamicData);
-  console.log('🎈 ~ decorate ~ dynamicData: ~~~~~~~~~~~~~~~~~~~~ ', dynamicData);
-  console.log('🎈 ~ decorate ~ wrapper: ~~~~~~~~~~~~~~~~~~~~ ', wrapper);
-  console.log('🎈 ~ decorate ~ block1: ~~~~~~~~~~~~~~~~~~~~ ', block);
-  console.log('🎈 ~ decorate ~ block2: ~~~~~~~~~~~~~~~~~~~~ ', block.children);
-  /* change to ul, li */
-  // const ul = document.createElement('ul');
-  // [...block.children].forEach((row) => {
-  //   const li = document.createElement('li');
-  //   moveInstrumentation(row, li);
-  //   while (row.firstElementChild) li.append(row.firstElementChild);
-  //   [...li.children].forEach((div) => {
-  //     if (div.children.length === 1 && div.querySelector('picture')) div.className = 'cards-card-image';
-  //     else div.className = 'cards-card-body';
-  //   });
-  //   ul.append(li);
-  // });
-  // block.textContent = '';
-  // block.append(navContainerWrapper);
+
+  // Process nav items
+  itemRows.forEach((row) => {
+    const cells = [...row.children];
+
+    // Each nav-item should have title and link
+    if (cells.length >= 2) {
+      row.classList.add('nav-item');
+
+      // First cell is title
+      if (cells[0]) {
+        cells[0].setAttribute('data-field', 'item_title');
+        cells[0].classList.add('item-title');
+      }
+
+      // Second cell is link
+      if (cells[1]) {
+        cells[1].setAttribute('data-field', 'item_link');
+        cells[1].classList.add('item-link');
+      }
+
+      // Third cell might be item type (if you added it)
+      if (cells[2]) {
+        cells[2].setAttribute('data-field', 'item_type');
+        cells[2].classList.add('item-type');
+      }
+
+      // Fourth cell might be open in new tab flag
+      if (cells[3]) {
+        cells[3].setAttribute('data-field', 'open_in_new_tab');
+        cells[3].classList.add('open-in-new-tab');
+      }
+    }
+  });
+
+  // Add container class
+  block.classList.add('nav-container-block');
 }

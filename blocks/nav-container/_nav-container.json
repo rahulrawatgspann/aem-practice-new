@@ -53,13 +53,14 @@
           "valueType": "string",
           "name": "item_title",
           "value": "",
-          "label": "Title"
+          "label": "Link Title"
         },
         {
-          "component": "text",
+          "component": "reference",
           "valueType": "string",
           "name": "item_link",
-          "label": "Link"
+          "value": "",
+          "label": "Link URL"
         }
       ]
     }

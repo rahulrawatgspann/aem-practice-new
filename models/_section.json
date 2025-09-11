@@ -53,7 +53,8 @@
         "hero",
         "custom-gallery",
         "quote",
-        "dummy"
+        "dummy",
+        "nav-container"
       ]
     }
   ]

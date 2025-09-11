@@ -260,6 +260,36 @@
     ]
   },
   {
+    "id": "nav-container",
+    "fields": [
+      {
+        "component": "text",
+        "valueType": "string",
+        "name": "nav_container_title",
+        "value": "",
+        "label": "Title"
+      }
+    ]
+  },
+  {
+    "id": "nav-item",
+    "fields": [
+      {
+        "component": "text",
+        "valueType": "string",
+        "name": "item_title",
+        "value": "",
+        "label": "Title"
+      },
+      {
+        "component": "text",
+        "valueType": "string",
+        "name": "item_link",
+        "label": "Link"
+      }
+    ]
+  },
+  {
     "id": "quote",
     "fields": [
       {

@@ -285,7 +285,7 @@ export default async function decorate(block) {
   console.log('🎈 ~ decorate ~ headerNavSection: ~~~~~~~~~~~~~~~~~~~~ ', headerNavSection);
   applyClasses(headerNavSection, 'nav-header w-full p-4 text-center');
 
-  const navContainers = headerNavSection.querySelectorAll('.nav-container');
+  const navContainers = headerNavSection?.querySelectorAll('.nav-container');
   const navMain = document.createElement('div');
   navMain.className = 'nav-main';
   const navItems = document.createElement('div');

@@ -293,7 +293,7 @@ export default async function decorate(block) {
   const categories = [];
 
   // Process each nav container
-  navContainers.forEach((container, index) => {
+  navContainers?.forEach((container, index) => {
     const divs = container.children;
     if (divs.length > 0) {
       // First div is the category
@@ -362,7 +362,7 @@ export default async function decorate(block) {
   });
 
   // Replace original containers with new navigation
-  navContainers.forEach((container) => container.remove());
+  navContainers?.forEach((container) => container.remove());
 
   // Insert new navigation before section-metadata
   const sectionMetadata = headerNavSection.querySelector('.section-metadata');

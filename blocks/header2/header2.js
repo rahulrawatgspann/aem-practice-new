@@ -3,7 +3,6 @@ import { decorateIcons } from '../../scripts/aem.js';
 import {
   div, a, span, nav, img, input, button, form, ul, li, h3,
 } from '../../scripts/dom-builder.js';
-// import { applyClasses } from '../../scripts/scripts.js';
 
 // Header Component
 function createHeader() {
@@ -81,128 +80,31 @@ function createSubHeader() {
  * @returns {Object} Navigation data with title and items
  */
 function extractNavData(container) {
-  console.log('=== DEBUGGING CONTAINER ===');
-  console.log('Container element:', container);
-  console.log('Container innerHTML:', container.innerHTML);
-  console.log('Container textContent:', container.textContent);
-  console.log('Container classes:', container.className);
   const data = { title: '', items: [] };
-
-  // Try different approaches to extract data
-
-  // Method 1: Look for structured data with classes/attributes
-  const titleElement = container.querySelector('[data-field="nav_container_title"], .nav-container-title');
-  if (titleElement) {
-    data.title = titleElement.textContent.trim();
-  }
-
-  const navItems = container.querySelectorAll('.nav-item');
-  navItems.forEach((item) => {
-    const titleEl = item.querySelector('[data-field="item_title"], .item-title');
-    const linkEl = item.querySelector('[data-field="item_link"], .item-link');
-
-    if (titleEl && linkEl) {
-      data.items.push({
-        title: titleEl.textContent.trim(),
-        url: linkEl.textContent.trim(),
-      });
-    }
-  });
-
-  // Method 2: Fallback to parsing table structure (common in Franklin)
-  if (!data.title && data.items.length === 0) {
-    const table = container.querySelector('table');
-    if (table) {
-      const rows = [...table.querySelectorAll('tr')];
-
-      if (rows.length > 0) {
-        // First row might be the title
-        const firstRow = rows[0];
-        const firstCell = firstRow.querySelector('td, th');
-        if (firstCell && firstCell.colSpan >= 2) {
-          data.title = firstCell.textContent.trim();
-          rows.shift(); // Remove title row
-        }
-
-        // Process remaining rows as nav items
-        rows.forEach((row) => {
-          const cells = [...row.querySelectorAll('td, th')];
-          if (cells.length >= 2) {
-            const title = cells[0].textContent.trim();
-            const url = cells[1].textContent.trim();
-            if (title && url) {
-              data.items.push({ title, url });
-            }
-          }
-        });
-      }
-    }
-  }
-
-  // Method 3: Parse from raw text content
-  if (!data.title && data.items.length === 0) {
-    const textContent = container.textContent.trim();
-    const lines = textContent.split('\n').map((line) => line.trim()).filter((line) => line);
-
-    if (lines.length > 0) {
-      data.title = lines[0];
-
-      for (let i = 1; i < lines.length; i += 2) {
-        if (lines[i] && lines[i + 1]) {
-          data.items.push({
-            title: lines[i],
-            url: lines[i + 1],
-          });
-        }
-      }
-    }
-  }
-
-  // Method 4: Parse AEM Author specific nested div structure
-  if (data.items.length === 0) { // Only check for items, not title
+  // Parse AEM Author specific nested div structure
+  if (data.items.length === 0) {
     const allDivs = container.querySelectorAll('div');
-    console.log('Method 4: Found divs:', allDivs.length);
-
-    // If we don't have a title yet, look for the first div that contains only text (title)
     if (!data.title) {
       let foundTitle = false;
-      allDivs.forEach((innerDiv, index) => {
+      allDivs.forEach((innerDiv) => {
         const divText = innerDiv.textContent.trim();
         const hasChildDivs = innerDiv.querySelector('div') !== null;
         const hasChildPs = innerDiv.querySelector('p') !== null;
-
-        console.log(`Div ${index}: "${divText}", hasChildDivs: ${hasChildDivs}, hasChildPs: ${hasChildPs}`);
-
-        // If this div contains only text and is likely the title
         if (divText && !hasChildDivs && !hasChildPs && !foundTitle && divText.length < 50) {
           data.title = divText;
           foundTitle = true;
-          console.log('Found title via Method 4:', divText);
         }
       });
     }
-    
     // Now look for paragraphs anywhere in the container (including nested)
     const allParagraphs = container.querySelectorAll('p');
-    console.log(`Method 4: Found ${allParagraphs.length} total paragraphs`);
-    
-    // Debug each paragraph found
-    allParagraphs.forEach((p, index) => {
-      console.log(`Paragraph ${index}: "${p.textContent.trim()}"`);
-    });
-    
     if (allParagraphs.length > 0) {
       for (let i = 0; i < allParagraphs.length; i += 2) {
         const titleP = allParagraphs[i];
         const linkP = allParagraphs[i + 1];
-        
-        console.log(`Processing pair ${i/2 + 1}: titleP exists: ${!!titleP}, linkP exists: ${!!linkP}`);
-        
         if (titleP && linkP) {
           const title = titleP.textContent.trim();
           const url = linkP.textContent.trim();
-          console.log(`Method 4 - Extracting: title="${title}", url="${url}"`);
-          
           if (title && url) {
             data.items.push({ title, url });
           }
@@ -210,7 +112,6 @@ function extractNavData(container) {
       }
     }
   }
-  console.log('Extracted nav data:', data);
   return data;
 }
 
@@ -221,7 +122,6 @@ function extractNavData(container) {
  */
 function buildNavCategory(container) {
   const categoryData = extractNavData(container);
-  console.log('🎈 ~ buildNavCategory ~ categoryData: ~~~~~~~~~~~~~~~~~~~~ ', categoryData);
   if (!categoryData.title && categoryData.items.length === 0) {
     return null;
   }
@@ -335,7 +235,6 @@ export default async function decorate(block) {
     // Fetch the header fragment (similar to the reference code)
     const resp = await fetch('/nav.plain.html');
     const html = await resp.text();
-    console.log('🎈 ~ decorate ~ html: ~~~~~~~~~~~~~~~~~~~~ ', html);
 
     // Create header container
     const headerBlock = div({
@@ -351,7 +250,6 @@ export default async function decorate(block) {
 
     // Build navigation from the fetched content
     const navigation = buildNavigationFromBlocks(headerBlock);
-    console.log('🎈 ~ decorate ~ navigation: ~~~~~~~~~~~~~~~~~~~~ ', navigation);
 
     const navWrapper = document.createElement('div');
     navWrapper.className = 'nav-wrapper fixed top-0 left-0 w-full bg-gray-800 text-white flex flex-col z-50';

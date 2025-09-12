@@ -177,29 +177,29 @@ function extractNavData(container) {
         data.title = divText;
         foundTitle = true;
         console.log('Found title via Method 4:', divText);
-      // eslint-disable-next-line brace-style
       }
-      // If this div contains paragraph tags, extract nav items
-      else if (hasChildPs) {
-        const paragraphs = innerDiv.querySelectorAll('p');
-        console.log(`Found ${paragraphs.length} paragraphs in div`);
+    });
 
-        for (let i = 0; i < paragraphs.length; i += 2) {
-          const titleP = paragraphs[i];
-          const linkP = paragraphs[i + 1];
+    // Now look for paragraphs anywhere in the container (including nested)
+    const allParagraphs = container.querySelectorAll('p');
+    console.log(`Method 4: Found ${allParagraphs.length} total paragraphs`);
 
-          if (titleP && linkP) {
-            const title = titleP.textContent.trim();
-            const url = linkP.textContent.trim();
-            console.log(`Extracting: title="${title}", url="${url}"`);
+    if (allParagraphs.length > 0) {
+      for (let i = 0; i < allParagraphs.length; i += 2) {
+        const titleP = allParagraphs[i];
+        const linkP = allParagraphs[i + 1];
 
-            if (title && url) {
-              data.items.push({ title, url });
-            }
+        if (titleP && linkP) {
+          const title = titleP.textContent.trim();
+          const url = linkP.textContent.trim();
+          console.log(`Method 4 - Extracting: title="${title}", url="${url}"`);
+
+          if (title && url) {
+            data.items.push({ title, url });
           }
         }
       }
-    });
+    }
   }
   console.log('Extracted nav data:', data);
   return data;
@@ -233,10 +233,10 @@ function buildNavCategory(container) {
     });
 
     categoryData.items.forEach((item) => {
-      const listItem = li({ class: 'nav-item border-b last:border-b-0' });
+      const listItem = li({ class: 'nav-item' });
       const link = a({
         href: item.url || '#',
-        class: 'nav-link block p-3 hover:bg-gray-50 text-gray-800 hover:text-blue-600',
+        class: 'nav-link block px-4 py-3 text-gray-700 hover:bg-gray-50 hover:text-blue-600 transition-all duration-200 border-b border-gray-100 last:border-b-0',
       }, item.title);
 
       // Handle external links

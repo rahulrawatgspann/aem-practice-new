@@ -159,26 +159,28 @@ function extractNavData(container) {
   }
 
   // Method 4: Parse AEM Author specific nested div structure
-  if (!data.title && data.items.length === 0) {
+  if (data.items.length === 0) { // Only check for items, not title
     const allDivs = container.querySelectorAll('div');
     console.log('Method 4: Found divs:', allDivs.length);
 
-    // Look for the first div that contains only text (title)
-    let foundTitle = false;
-    allDivs.forEach((innerDiv, index) => {
-      const divText = innerDiv.textContent.trim();
-      const hasChildDivs = innerDiv.querySelector('div') !== null;
-      const hasChildPs = innerDiv.querySelector('p') !== null;
+    // If we don't have a title yet, look for the first div that contains only text (title)
+    if (!data.title) {
+      let foundTitle = false;
+      allDivs.forEach((innerDiv, index) => {
+        const divText = innerDiv.textContent.trim();
+        const hasChildDivs = innerDiv.querySelector('div') !== null;
+        const hasChildPs = innerDiv.querySelector('p') !== null;
 
-      console.log(`Div ${index}: "${divText}", hasChildDivs: ${hasChildDivs}, hasChildPs: ${hasChildPs}`);
+        console.log(`Div ${index}: "${divText}", hasChildDivs: ${hasChildDivs}, hasChildPs: ${hasChildPs}`);
 
-      // If this div contains only text and is likely the title
-      if (divText && !hasChildDivs && !hasChildPs && !foundTitle && divText.length < 50) {
-        data.title = divText;
-        foundTitle = true;
-        console.log('Found title via Method 4:', divText);
-      }
-    });
+        // If this div contains only text and is likely the title
+        if (divText && !hasChildDivs && !hasChildPs && !foundTitle && divText.length < 50) {
+          data.title = divText;
+          foundTitle = true;
+          console.log('Found title via Method 4:', divText);
+        }
+      });
+    }
     
     // Now look for paragraphs anywhere in the container (including nested)
     const allParagraphs = container.querySelectorAll('p');

@@ -1,3 +1,4 @@
+/* eslint-disable */
 export default function decorate(block) {
   const images = block.querySelectorAll('img');
   images.forEach((img) => {

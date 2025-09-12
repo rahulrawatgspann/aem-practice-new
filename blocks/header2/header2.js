@@ -158,6 +158,49 @@ function extractNavData(container) {
     }
   }
 
+  // Method 4: Parse AEM Author specific nested div structure
+  if (!data.title && data.items.length === 0) {
+    const allDivs = container.querySelectorAll('div');
+    console.log('Method 4: Found divs:', allDivs.length);
+
+    // Look for the first div that contains only text (title)
+    let foundTitle = false;
+    allDivs.forEach((innerDiv, index) => {
+      const divText = innerDiv.textContent.trim();
+      const hasChildDivs = innerDiv.querySelector('div') !== null;
+      const hasChildPs = innerDiv.querySelector('p') !== null;
+
+      console.log(`Div ${index}: "${divText}", hasChildDivs: ${hasChildDivs}, hasChildPs: ${hasChildPs}`);
+
+      // If this div contains only text and is likely the title
+      if (divText && !hasChildDivs && !hasChildPs && !foundTitle && divText.length < 50) {
+        data.title = divText;
+        foundTitle = true;
+        console.log('Found title via Method 4:', divText);
+      // eslint-disable-next-line brace-style
+      }
+      // If this div contains paragraph tags, extract nav items
+      else if (hasChildPs) {
+        const paragraphs = innerDiv.querySelectorAll('p');
+        console.log(`Found ${paragraphs.length} paragraphs in div`);
+
+        for (let i = 0; i < paragraphs.length; i += 2) {
+          const titleP = paragraphs[i];
+          const linkP = paragraphs[i + 1];
+
+          if (titleP && linkP) {
+            const title = titleP.textContent.trim();
+            const url = linkP.textContent.trim();
+            console.log(`Extracting: title="${title}", url="${url}"`);
+
+            if (title && url) {
+              data.items.push({ title, url });
+            }
+          }
+        }
+      }
+    });
+  }
   console.log('Extracted nav data:', data);
   return data;
 }

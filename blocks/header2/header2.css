@@ -1,4 +1,4 @@
-/* stylelint-disable */
+/* header.css */
 
 .nav-wrapper {
   width: 100%;
@@ -31,78 +31,183 @@
   justify-content: space-around;
 }
 
-.build-nav-block {
+.header-container {
+  position: relative;
   background: white;
-  padding: 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-.nav-main {
+.header-wrapper {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.logo-section {
   display: flex;
-  gap: 30px;
+  align-items: center;
+  padding: 1rem 2rem;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.logo-section img {
+  height: 40px;
+  width: auto;
+  margin-right: 1rem;
+}
+
+.navigation-section {
+  padding: 0 2rem;
+}
+
+.header-navigation {
+  display: flex;
+  gap: 2rem;
+  align-items: center;
+  justify-content: flex-start;
+  flex-wrap: wrap;
+  background-color: white;
   justify-content: space-around;
 }
 
 .nav-category {
-  cursor: pointer;
-  transition: all 0.3s ease;
-  font-weight: 500;
-  font-size: 14px;
-  color: #0060a8;
+  position: relative;
 }
 
-.nav-category:hover {
-  transform: translateY(-2px);
+.nav-category-title {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #374151;
+  cursor: pointer;
+  padding: 0.75rem 1rem;
+  border-radius: 6px;
+  transition: all 0.2s ease;
+  user-select: none;
+}
+
+.nav-category-title:hover {
+  color: #2563eb;
+  background-color: #f3f4f6;
 }
 
 .nav-items {
-  display: none;
-  animation: fadeIn 0.3s ease;
+  list-style: none;
+  margin: 0;
+  padding: 0.5rem 0;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  background: white;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+  border-radius: 8px;
+  min-width: 220px;
+  z-index: 1000;
+  border: 1px solid #e5e7eb;
 }
 
-.nav-items.show {
-  display: block;
+.nav-items.hidden {
+  display: none;
 }
 
 .nav-item {
-  font-size: 14px;
-  margin: 5px 0;
+  border-bottom: 1px solid #f3f4f6;
+}
+
+.nav-item:last-child {
+  border-bottom: none;
+}
+
+.nav-link {
+  display: block;
+  padding: 0.75rem 1rem;
+  color: #374151;
+  text-decoration: none;
   transition: all 0.2s ease;
-  cursor: pointer;
-  color: #666;
+  font-size: 0.875rem;
 }
 
-.nav-item:hover {
-  transform: translateX(5px);  
-  color: #0060a8;
+.nav-link:hover {
+  background-color: #f3f4f6;
+  color: #2563eb;
+  text-decoration: none;
+  padding-left: 1.25rem;
 }
 
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(-10px);
+/* External link indicator */
+.nav-link[target="_blank"]::after {
+  content: ' ↗';
+  font-size: 0.75em;
+  opacity: 0.6;
+  margin-left: 0.25rem;
+}
+
+/* Mobile responsive */
+@media (max-width: 768px) {
+  .header-navigation {
+    flex-direction: column;
+    gap: 0;
+    align-items: stretch;
+  }
+  
+  .nav-category {
+    border-bottom: 1px solid #e5e7eb;
+  }
+  
+  .nav-category:last-child {
+    border-bottom: none;
+  }
+  
+  .nav-category-title {
+    border-radius: 0;
+    padding: 1rem;
+    background: #f9fafb;
+  }
+  
+  .nav-items {
+    position: static;
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.06);
+    background: #f3f4f6;
+    border: none;
+    border-radius: 0;
+    min-width: auto;
+  }
+  
+  .nav-link {
+    padding-left: 2rem;
+  }
+  
+  .nav-link:hover {
+    padding-left: 2.25rem;
+  }
+  
+  .logo-section {
+    padding: 1rem;
+  }
+  
+  .navigation-section {
+    padding: 0;
   }
 
-  to {
-    opacity: 1;
-    transform: translateY(0);
+  .build-button-block {
+    display: none;
   }
 }
 
-.secondary {
-  background-color: transparent;
-  color: #0060a8 !important;
-  border: none !important;
+.nav-category:hover .nav-items {
+  animation: fadeInDown 0.2s ease forwards;
 }
 
-.sub-header {
-  height: 60px;
-  .section {
-    .default-content-wrapper {
-      display: flex;
-      gap: 30px;
-    }
-  }
+/* Focus states for accessibility */
+.nav-category-title:focus,
+.nav-link:focus {
+  outline: 2px solid #2563eb;
+  outline-offset: 2px;
 }
+
+
+
+
+
 
 .visible {
   visibility: visible
@@ -335,14 +440,5 @@
   .md\:px-6 {
     padding-left: 1.5rem;
     padding-right: 1.5rem
-  }
-}
-
-@media (max-width: 768px) {
-  .build-button-block {
-    display: none;
-  }
-  .collapse {
-    display: block;
   }
 }

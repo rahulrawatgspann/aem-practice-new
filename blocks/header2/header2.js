@@ -1,164 +1,9 @@
-// /* eslint-disable */
-import { decorateIcons, getMetadata } from '../../scripts/aem.js';
+// header.js
+import { decorateIcons } from '../../scripts/aem.js';
 import {
-  div, a, span, nav, img, input, button, form,
-  ul,
-  li,
-  h4,
+  div, a, span, nav, img, input, button, form, ul, li, h3,
 } from '../../scripts/dom-builder.js';
-import { applyClasses } from '../../scripts/scripts.js';
-import { loadFragment } from '../fragment/fragment.js';
-
-function hideFlyoutMenu() {
-  document.querySelector('#menu-flyout')?.classList.add('hidden');
-}
-
-function sortFlyoutMenus(menuPath) {
-  const menuList = document.querySelector('#menu-flyout ul');
-  const heading = menuPath.split('|');
-  if (heading) document.querySelector('#menu-flyout h4').textContent = heading[heading.length - 1];
-  [...menuList.children].forEach((menu) => {
-    if (
-      menu.getAttribute('data-content') !== menuPath
-      && menu.getAttribute('data-content') !== menuPath
-    ) {
-      menu.classList.add('hidden');
-    } else {
-      menu.classList.remove('hidden');
-      const href = menu.getAttribute('data-href');
-      const backFlyout = document.querySelector('#back-flyout');
-      const exploreFlyout = document.querySelector('#explore-flyout');
-      const redirectLink = menu
-        .getAttribute('data-content')
-        .split('|')
-        .slice(0, -1)
-        .join('|');
-      if (redirectLink) {
-        backFlyout.setAttribute('data-redirect', redirectLink);
-        backFlyout.classList.remove('hidden');
-      } else backFlyout.classList.add('hidden');
-      if (href) {
-        exploreFlyout.setAttribute('href', href);
-        exploreFlyout.classList.remove('hidden');
-      } else exploreFlyout.classList.add('hidden');
-    }
-  });
-}
-
-function buildFlyoutMenus(headerBlock) {
-  const allFlyout = headerBlock.querySelectorAll('.menu-flyout');
-  const closeFlyout = button(
-    { class: 'flex ml-auto mx-2 p-1 rounded hover:bg-gray-200/30' },
-    span({
-      class:
-        'icon icon-x w-6 h-6 [&_svg>use]:stroke-2 [&_svg>use]:stroke-gray-500/70',
-    }),
-  );
-  closeFlyout.addEventListener('click', hideFlyoutMenu);
-
-  const backFlyout = button(
-    { id: 'back-flyout', class: 'flex items-center gap-x-1 group' },
-    span({
-      class:
-        'icon icon-arrow-left [&_svg>use]:stroke-danaherpurple-500 w-4 h-4 transition-transform group-hover:translate-x-0.5',
-    }),
-    'Back',
-  );
-  backFlyout.addEventListener('click', () => sortFlyoutMenus(backFlyout.getAttribute('data-redirect')));
-
-  const exploreFlyout = a(
-    {
-      id: 'explore-flyout',
-      class: 'flex items-center gap-x-1 group',
-      href: '#',
-    },
-    'Explore all',
-    span({
-      class:
-        'icon icon-arrow-right [&_svg>use]:stroke-danaherpurple-500 w-4 h-4 transition-transform group-hover:-translate-x-0.5',
-    }),
-  );
-
-  const navigateActions = div(
-    {
-      class:
-        'flex justify-between text-base text-danaherpurple-500 font-bold mx-2',
-    },
-    backFlyout,
-    exploreFlyout,
-  );
-
-  decorateIcons(closeFlyout);
-  decorateIcons(backFlyout);
-  decorateIcons(exploreFlyout);
-
-  const menuWrapper = ul({
-    class:
-      'h-[75vh] flex flex-col gap-y-2 mt-3 overflow-auto [&>li.active]:bg-danaherpurple-50 [&>li.active]:font-bold',
-  });
-  [...allFlyout].forEach((flyMenu) => {
-    const contentText = flyMenu.children[0]?.textContent;
-    const anchorHref = flyMenu.children[0].querySelector('a')?.href;
-
-    [...flyMenu.children[1].children].map((flyMenuChild) => {
-      const contextPath = `${contentText}|${flyMenuChild.textContent}`;
-      const liTag = li({
-        class:
-          'inline-flex justify-between items-center hover:bg-danaherpurple-50 font-extralight text-base hover:font-medium tracking-wider px-2 py-2 select-none cursor-pointer [&>a]:w-full transition group',
-        'data-content': contentText,
-        ...(anchorHref && { 'data-href': anchorHref }),
-      });
-      if (flyMenuChild.querySelector('span.icon')) {
-        liTag.setAttribute('data-redirect', contextPath);
-        liTag.innerHTML += flyMenuChild.textContent;
-        liTag.append(
-          span({
-            class:
-              'icon icon-arrow-right shrink-0 [&_svg>use]:stroke-danaherpurple-500 [&_svg>use]:hover:stroke-black w-4 h-4 group-hover:-translate-x-0.5',
-          }),
-        );
-        liTag.addEventListener('click', () => sortFlyoutMenus(contextPath));
-      } else {
-        liTag.append(
-          a(
-            { href: flyMenuChild.querySelector('a')?.href },
-            flyMenuChild.textContent,
-          ),
-        );
-      }
-      decorateIcons(liTag);
-      menuWrapper.append(liTag);
-      return flyMenuChild;
-    });
-    flyMenu.outerHTML = '';
-  });
-
-  const flyout = div(
-    {
-      id: 'menu-flyout',
-      class:
-        'w-full hidden fixed top-0 left-0 z-40 h-screen transition-all ease-out backdrop-brightness-50',
-    },
-    div(
-      {
-        class:
-          'w-[360px] max-w-sm fixed h-full bg-white px-3 py-4 ease-out transition-all',
-      },
-      closeFlyout,
-      h4(
-        { class: 'text-2xl font-medium text-gray-900 mt-0 mx-2 mb-2' },
-        'Flyout Menu Heading',
-      ),
-      navigateActions,
-      div({ class: 'border-b border-black py-2 mx-2' }),
-      menuWrapper,
-    ),
-  );
-  flyout.addEventListener('click', (event) => {
-    if (event.target.id === 'menu-flyout') hideFlyoutMenu();
-  });
-  return flyout;
-}
+// import { applyClasses } from '../../scripts/scripts.js';
 
 // Header Component
 function createHeader() {
@@ -195,10 +40,6 @@ function createHeader() {
         span('India'),
         span({ class: 'icon icon-globe' }),
       ),
-      button(
-        { class: 'collapse', onclick: () => console.log('test'), id: 'header-actions' },
-        span('='),
-      ),
     ),
   );
   decorateIcons(header);
@@ -208,7 +49,7 @@ function createHeader() {
 function createSubHeader() {
   const subHeader = nav(
     {
-      class: 'search-header w-full p-4 text-center',
+      class: 'search-header p-4 text-center',
     },
     // Left Section → Search Bar
     form(
@@ -234,180 +75,188 @@ function createSubHeader() {
   return subHeader;
 }
 
-function buildButtonBlock(headerBlock) {
-  const buttonHTMLBlock = headerBlock?.children[0];
-  if (buttonHTMLBlock) buttonHTMLBlock.className = 'build-button-block';
-}
+/**
+ * Extracts navigation data from a container block
+ * @param {Element} container The container element
+ * @returns {Object} Navigation data with title and items
+ */
+function extractNavData(container) {
+  const data = { title: '', items: [] };
+  if (!data.title && data.items.length === 0) {
+    const textContent = container.textContent.trim();
+    const lines = textContent.split('\n').map((line) => line.trim()).filter((line) => line);
 
-function buildNavBlock(headerBlock) {
-  const navHTMLBlock = headerBlock?.children[1];
-  if (navHTMLBlock) navHTMLBlock.className = 'build-nav-block';
+    if (lines.length > 0) {
+      // eslint-disable-next-line prefer-destructuring
+      data.title = lines[0];
+      for (let i = 1; i < lines.length; i += 2) {
+        if (lines[i] && lines[i + 1]) {
+          data.items.push({
+            title: lines[i],
+            url: lines[i + 1],
+          });
+        }
+      }
+    }
+  }
+  return data;
 }
 
 /**
- * loads and decorates the header(s)
+ * Builds a navigation category from a nav-container block
+ * @param {Element} container The nav-container block
+ * @returns {Element} Navigation category element
+ */
+function buildNavCategory(container) {
+  const categoryData = extractNavData(container);
+  if (!categoryData.title && categoryData.items.length === 0) {
+    return null;
+  }
+  const categoryWrapper = div({ class: 'nav-category relative' });
+
+  // Add category title
+  if (categoryData.title) {
+    const categoryTitle = h3({
+      class: 'nav-category-title text-lg font-semibold cursor-pointer hover:text-blue-600 p-2',
+    }, categoryData.title);
+    categoryWrapper.appendChild(categoryTitle);
+  }
+
+  // Add navigation items
+  if (categoryData.items.length > 0) {
+    const itemsList = ul({
+      class: 'nav-items hidden absolute top-full left-0 bg-white shadow-lg rounded-md min-w-48 z-10',
+    });
+
+    categoryData.items.forEach((item) => {
+      const listItem = li({ class: 'nav-item border-b last:border-b-0' });
+      const link = a({
+        href: item.url || '#',
+        class: 'nav-link block p-3 hover:bg-gray-50 text-gray-800 hover:text-blue-600',
+      }, item.title);
+
+      // Handle external links
+      if (item.url && (item.url.startsWith('http') || item.url.startsWith('mailto'))) {
+        link.target = '_blank';
+        link.rel = 'noopener noreferrer';
+      }
+
+      listItem.appendChild(link);
+      itemsList.appendChild(listItem);
+    });
+
+    categoryWrapper.appendChild(itemsList);
+
+    // Add hover functionality
+    categoryWrapper.addEventListener('mouseenter', () => {
+      itemsList.classList.remove('hidden');
+    });
+
+    categoryWrapper.addEventListener('mouseleave', () => {
+      itemsList.classList.add('hidden');
+    });
+  }
+
+  return categoryWrapper;
+}
+
+/**
+ * Fallback method to build navigation from any content
+ * @param {Element} headerBlock The header block
+ * @returns {Element} Navigation element
+ */
+function buildNavigationFromContent(headerBlock) {
+  const possibleNavBlocks = headerBlock.querySelectorAll('div, section');
+  const headerNav = nav({ class: 'header-navigation flex gap-8' });
+
+  possibleNavBlocks.forEach((block) => {
+    const textContent = block.textContent.trim();
+    if (textContent && textContent.length > 5) {
+      const categoryData = extractNavData(block);
+      if (categoryData.title || categoryData.items.length > 0) {
+        const navCategory = buildNavCategory(block);
+        if (navCategory) {
+          headerNav.appendChild(navCategory);
+        }
+      }
+    }
+  });
+
+  return headerNav;
+}
+
+/**
+ * Processes navigation container blocks and builds navigation structure
+ * @param {Element} headerBlock The header block containing navigation data
+ * @returns {Element} Structured navigation element
+ */
+function buildNavigationFromBlocks(headerBlock) {
+  const navContainers = headerBlock.querySelectorAll('.nav-container');
+
+  if (navContainers.length === 0) {
+    // Fallback
+    return buildNavigationFromContent(headerBlock);
+  }
+  const headerNav = nav({ class: 'header-navigation flex gap-8' });
+  navContainers.forEach((container) => {
+    const navCategory = buildNavCategory(container);
+    if (navCategory) {
+      headerNav.appendChild(navCategory);
+    }
+  });
+  return headerNav;
+}
+
+function buildButtonBlock(headerBlock) {
+  const buttonHTMLBlock = headerBlock?.children[0];
+  // const buttonHTMLBlock2 = buttonHTMLBlock?.children[0];
+  if (buttonHTMLBlock) buttonHTMLBlock.className = 'build-button-block';
+}
+
+/**
+ * Main header decoration function
  * @param {Element} block The header block element
  */
 export default async function decorate(block) {
-  // load nav as fragment
-  const navMeta = getMetadata('nav');
-  const navPath = navMeta ? new URL(navMeta, window.location).pathname : '/nav';
-  const fragment = await loadFragment(navPath);
-  console.log('🎈 ~ decorate ~ fragment: ~~~~~~~~~~~~~~~~~~~~ ', fragment);
+  try {
+    // Fetch the header fragment (similar to the reference code)
+    const resp = await fetch('/nav.plain.html');
+    const html = await resp.text();
 
-  // decorate nav DOM
-  block.textContent = '';
-  const nav1 = document.createElement('nav');
-  nav1.id = 'nav';
-  while (fragment.firstElementChild) {
-    console.log('🎈 ~ decorate ~ fragment: ~~~~~~~~~~~~~~~~~~~~ ', fragment);
-    console.log('🎈 ~ decorate ~ fragment.firstElementChild: ~~~~~~~~~~~~~~~~~~~~ ', fragment.firstElementChild);
-    // console.log(first)
-    nav1.append(fragment.firstElementChild);
+    // Create header container
+    const headerBlock = div({
+      class: 'header-container bg-white shadow-sm relative z-20',
+    });
+    headerBlock.innerHTML = html;
+    buildButtonBlock(headerBlock);
+    const headerButtonSection = headerBlock?.querySelector('.build-button-block');
+
+    // create header + subheader
+    const headerEl = createHeader();
+    const subHeaderEl = createSubHeader();
+
+    // Build navigation from the fetched content
+    const navigation = buildNavigationFromBlocks(headerBlock);
+
+    const navWrapper = document.createElement('div');
+    navWrapper.className = 'nav-wrapper fixed top-0 left-0 w-full bg-gray-800 text-white flex flex-col z-50';
+
+    // append to wrapper (header first)
+    navWrapper.append(headerEl);
+    subHeaderEl.append(headerButtonSection);
+    navWrapper.append(subHeaderEl);
+    navWrapper.append(navigation);
+    block.append(navWrapper);
+  } catch (error) {
+    console.error('Error building header:', error);
+
+    // Fallback: try to build navigation from the block content directly
+    const fallbackNav = buildNavigationFromContent(block);
+    if (fallbackNav.children.length > 0) {
+      block.innerHTML = '';
+      block.appendChild(fallbackNav);
+    }
   }
 
-  //
-  const resp = await fetch('/nav.plain.html');
-  const html = await resp.text();
-  console.log('🎈 ~ decorate ~ html: ~~~~~~~~~~~~~~~~~~~~ ', html);
-
-  // build header DOM
-  const headerBlock = div({
-    class: 'nav-container pt-0 pb-0 md:p-0 relative z-20',
-  });
-  headerBlock.innerHTML = html;
-  buildButtonBlock(headerBlock);
-  buildNavBlock(headerBlock);
-  // console.log('🎈 ~ decorate ~ headerBlock: ~~~~~~~~~~~~~~~~~~~~ ', headerBlock);
-
-  const headerButtonSection = headerBlock.querySelector('.build-button-block');
-  const headerNavSection = headerBlock.querySelector('.build-nav-block');
-  console.log('🎈 ~ decorate ~ headerNavSection: ~~~~~~~~~~~~~~~~~~~~ ', headerNavSection);
-  applyClasses(headerNavSection, 'nav-header w-full p-4 text-center');
-
-  const navContainers = headerNavSection?.querySelectorAll('.nav-container');
-  const navMain = document.createElement('div');
-  navMain.className = 'nav-main';
-  const navItems = document.createElement('div');
-  navItems.className = 'nav-items';
-  const categories = [];
-
-  // Process each nav container
-  navContainers?.forEach((container, index) => {
-    const divs = container.children;
-    if (divs.length > 0) {
-      // First div is the category
-      const categoryText = divs[0].textContent;
-
-      // Create category element
-      const categoryElement = document.createElement('div');
-      categoryElement.className = 'nav-category';
-      categoryElement.textContent = categoryText;
-      categoryElement.dataset.category = index;
-
-      // Store category data
-      const categoryData = {
-        element: categoryElement,
-        items: [],
-      };
-
-      // Process items (skip first div which is category)
-      // eslint-disable-next-line no-plusplus
-      for (let i = 1; i < divs.length; i++) {
-        const itemText = divs[i].textContent;
-        // const itemText = divs[i].textContent;
-        const itemElement = document.createElement('div');
-        itemElement.className = 'nav-item';
-        itemElement.textContent = itemText;
-        categoryData.items.push(itemElement);
-      }
-
-      categories.push(categoryData);
-      navMain.appendChild(categoryElement);
-    }
-  });
-
-  // Add event listeners
-  categories.forEach((category) => {
-    const categoryElement = category.element;
-
-    categoryElement.addEventListener('mouseenter', () => {
-      // Remove active class from all categories
-      categories.forEach((cat) => cat.element.classList.remove('active'));
-
-      // Add active class to current category
-      categoryElement.classList.add('active');
-
-      // Clear previous items
-      navItems.innerHTML = '';
-
-      // Add current category items
-      category.items.forEach((item) => {
-        navItems.appendChild(item.cloneNode(true));
-      });
-
-      // Show items
-      navItems.classList.add('show');
-    });
-  });
-
-  // Hide items when not hovering over navigation area
-  const navigationArea = document.createElement('div');
-  navigationArea.appendChild(navMain);
-  navigationArea.appendChild(navItems);
-
-  navigationArea.addEventListener('mouseleave', () => {
-    navItems.classList.remove('show');
-    categories.forEach((cat) => cat.element.classList.remove('active'));
-  });
-
-  // Replace original containers with new navigation
-  navContainers?.forEach((container) => container.remove());
-
-  // Insert new navigation before section-metadata
-  const sectionMetadata = headerNavSection?.querySelector('.section-metadata');
-  headerNavSection?.insertBefore(navigationArea, sectionMetadata);
-
-  //
-  const navWrapper = document.createElement('div');
-  navWrapper.className = 'nav-wrapper fixed top-0 left-0 w-full bg-gray-800 text-white flex flex-col z-50';
-
-  // create header + subheader
-  const headerEl = createHeader();
-  const subHeaderEl = createSubHeader();
-
-  // append to wrapper (header first)
-  navWrapper.append(headerEl);
-  subHeaderEl.append(headerButtonSection);
-  navWrapper.append(subHeaderEl);
-  if (headerNavSection) navWrapper.append(headerNavSection);
-
-  const flyout = buildFlyoutMenus(headerBlock);
-
-  // attach wrapper to block (so elements are in DOM for measurement)
-  block.append(navWrapper);
-  block.append(flyout);
-
-  requestAnimationFrame(() => {
-    try {
-      const headerRect = headerEl.getBoundingClientRect();
-      const subHeaderRect = subHeaderEl.getBoundingClientRect();
-
-      // set top of subheader to header height
-      subHeaderEl.style.top = `${Math.ceil(headerRect.height)}px`;
-
-      // set body's padding-top to combined heights so page content is visible below fixed bars
-      const total = Math.ceil(headerRect.height + subHeaderRect.height);
-      document.body.style.paddingTop = `${total}px`;
-
-      // defensive: ensure no horizontal scroll from these fixed bars
-      document.documentElement.style.boxSizing = 'border-box';
-      document.body.style.overflowX = 'hidden';
-    } catch (e) {
-      // ignore measurement errors in constrained environments
-      // (but the elements are still present)
-    }
-  });
-
-  return navWrapper;
+  return block;
 }

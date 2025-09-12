@@ -81,6 +81,11 @@ function createSubHeader() {
  * @returns {Object} Navigation data with title and items
  */
 function extractNavData(container) {
+  console.log('=== DEBUGGING CONTAINER ===');
+  console.log('Container element:', container);
+  console.log('Container innerHTML:', container.innerHTML);
+  console.log('Container textContent:', container.textContent);
+  console.log('Container classes:', container.className);
   const data = { title: '', items: [] };
 
   // Try different approaches to extract data

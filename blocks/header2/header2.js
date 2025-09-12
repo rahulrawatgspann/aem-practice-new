@@ -82,13 +82,66 @@ function createSubHeader() {
  */
 function extractNavData(container) {
   const data = { title: '', items: [] };
+
+  // Try different approaches to extract data
+
+  // Method 1: Look for structured data with classes/attributes
+  const titleElement = container.querySelector('[data-field="nav_container_title"], .nav-container-title');
+  if (titleElement) {
+    data.title = titleElement.textContent.trim();
+  }
+
+  const navItems = container.querySelectorAll('.nav-item');
+  navItems.forEach((item) => {
+    const titleEl = item.querySelector('[data-field="item_title"], .item-title');
+    const linkEl = item.querySelector('[data-field="item_link"], .item-link');
+
+    if (titleEl && linkEl) {
+      data.items.push({
+        title: titleEl.textContent.trim(),
+        url: linkEl.textContent.trim(),
+      });
+    }
+  });
+
+  // Method 2: Fallback to parsing table structure (common in Franklin)
+  if (!data.title && data.items.length === 0) {
+    const table = container.querySelector('table');
+    if (table) {
+      const rows = [...table.querySelectorAll('tr')];
+
+      if (rows.length > 0) {
+        // First row might be the title
+        const firstRow = rows[0];
+        const firstCell = firstRow.querySelector('td, th');
+        if (firstCell && firstCell.colSpan >= 2) {
+          data.title = firstCell.textContent.trim();
+          rows.shift(); // Remove title row
+        }
+
+        // Process remaining rows as nav items
+        rows.forEach((row) => {
+          const cells = [...row.querySelectorAll('td, th')];
+          if (cells.length >= 2) {
+            const title = cells[0].textContent.trim();
+            const url = cells[1].textContent.trim();
+            if (title && url) {
+              data.items.push({ title, url });
+            }
+          }
+        });
+      }
+    }
+  }
+
+  // Method 3: Parse from raw text content
   if (!data.title && data.items.length === 0) {
     const textContent = container.textContent.trim();
     const lines = textContent.split('\n').map((line) => line.trim()).filter((line) => line);
 
     if (lines.length > 0) {
-      // eslint-disable-next-line prefer-destructuring
       data.title = lines[0];
+
       for (let i = 1; i < lines.length; i += 2) {
         if (lines[i] && lines[i + 1]) {
           data.items.push({
@@ -99,6 +152,8 @@ function extractNavData(container) {
       }
     }
   }
+
+  console.log('Extracted nav data:', data);
   return data;
 }
 

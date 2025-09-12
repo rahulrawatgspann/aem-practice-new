@@ -265,7 +265,7 @@
       {
         "component": "text",
         "valueType": "string",
-        "name": "nav_container_title",
+        "name": "nav_title",
         "value": "",
         "label": "Title"
       }

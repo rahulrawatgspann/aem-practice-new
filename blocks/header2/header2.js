@@ -109,6 +109,7 @@ function extractNavData(container) {
  */
 function buildNavCategory(container) {
   const categoryData = extractNavData(container);
+  console.log('🎈 ~ buildNavCategory ~ categoryData: ~~~~~~~~~~~~~~~~~~~~ ', categoryData);
   if (!categoryData.title && categoryData.items.length === 0) {
     return null;
   }
@@ -237,6 +238,7 @@ export default async function decorate(block) {
 
     // Build navigation from the fetched content
     const navigation = buildNavigationFromBlocks(headerBlock);
+    console.log('🎈 ~ decorate ~ navigation: ~~~~~~~~~~~~~~~~~~~~ ', navigation);
 
     const navWrapper = document.createElement('div');
     navWrapper.className = 'nav-wrapper fixed top-0 left-0 w-full bg-gray-800 text-white flex flex-col z-50';

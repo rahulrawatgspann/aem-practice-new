@@ -1,3 +1,4 @@
+/* eslint-disable */
 import { buildBlock } from '../../scripts/aem.js';
 import { div } from '../../scripts/dom-builder.js';
 

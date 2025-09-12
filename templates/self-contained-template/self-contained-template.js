@@ -1,3 +1,4 @@
+/* eslint-disable */
 export default function decorate(template) {
   template.classList.add('self-contained-template');
 

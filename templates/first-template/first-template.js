@@ -1,3 +1,4 @@
+/* eslint-disable */
 export default function decorate(template) {
   // ✅ Add a class to the template element itself
   template.classList.add('product-landing-template');

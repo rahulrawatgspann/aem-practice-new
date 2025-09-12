@@ -223,6 +223,7 @@ export default async function decorate(block) {
     // Fetch the header fragment (similar to the reference code)
     const resp = await fetch('/nav.plain.html');
     const html = await resp.text();
+    console.log('🎈 ~ decorate ~ html: ~~~~~~~~~~~~~~~~~~~~ ', html);
 
     // Create header container
     const headerBlock = div({

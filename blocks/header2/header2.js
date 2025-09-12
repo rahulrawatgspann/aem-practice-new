@@ -179,21 +179,28 @@ function extractNavData(container) {
         console.log('Found title via Method 4:', divText);
       }
     });
-
+    
     // Now look for paragraphs anywhere in the container (including nested)
     const allParagraphs = container.querySelectorAll('p');
     console.log(`Method 4: Found ${allParagraphs.length} total paragraphs`);
-
+    
+    // Debug each paragraph found
+    allParagraphs.forEach((p, index) => {
+      console.log(`Paragraph ${index}: "${p.textContent.trim()}"`);
+    });
+    
     if (allParagraphs.length > 0) {
       for (let i = 0; i < allParagraphs.length; i += 2) {
         const titleP = allParagraphs[i];
         const linkP = allParagraphs[i + 1];
-
+        
+        console.log(`Processing pair ${i/2 + 1}: titleP exists: ${!!titleP}, linkP exists: ${!!linkP}`);
+        
         if (titleP && linkP) {
           const title = titleP.textContent.trim();
           const url = linkP.textContent.trim();
           console.log(`Method 4 - Extracting: title="${title}", url="${url}"`);
-
+          
           if (title && url) {
             data.items.push({ title, url });
           }
